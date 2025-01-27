@@ -1,10 +1,17 @@
-require('dotenv').config(); // Load environment variables from .env file
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const express = require("express");
+const cors = require("cors");
+const { MongoClient, ServerApiVersion } = require("mongodb");
 
-// Use the environment variable for the MongoDB URI
+require("dotenv").config();
+
+const app = express();
+app.use(cors({
+  origin: "http://localhost:5173", // Replace with your React app's URL
+}));
+app.use(express.json());
+
 const url = process.env.MONGO_URL;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(url, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -13,40 +20,29 @@ const client = new MongoClient(url, {
   },
 });
 
-async function run() {
+async function connectToDatabase() {
   try {
-    // Connect the client to the server
     await client.connect();
     console.log("Connected to MongoDB!");
-
-    // Specify the database and collection
-    const database = client.db("sampleDatabase"); // Replace with your database name
-    const collection = database.collection("sampleCollection"); // Replace with your collection name
-
-    // Example document to insert
-    const doc = {
-      name: "Alice",
-      age: 25,
-      hobbies: ["reading", "coding", "gardening"],
-      createdAt: new Date(),
-    };
-
-    // Insert the document into the collection
-    const insertResult = await collection.insertOne(doc);
-    console.log("Document inserted with _id:", insertResult.insertedId);
-
-    // Query the collection for the inserted document
-    const query = { name: "Alice" }; // Filter criteria
-    const foundDoc = await collection.findOne(query);
-
-    console.log("Found document:", foundDoc);
+    return client.db("sampleDatabase").collection("sampleCollection");
   } catch (error) {
-    console.error("An error occurred:", error);
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-    console.log("Connection to MongoDB closed.");
+    console.error("Error connecting to MongoDB:", error);
+    throw error;
   }
 }
 
-run().catch(console.dir);
+app.get("/api/documents", async (req, res) => {
+  try {
+    const collection = await connectToDatabase();
+    const query = req.query; // Use query parameters for filtering
+    const documents = await collection.find(query).toArray();
+    res.json(documents); // Send the found documents as a JSON response
+  } catch (error) {
+    console.error("Error fetching documents:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});

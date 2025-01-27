@@ -4,6 +4,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import FetchComponent from "./FetchComponent";
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
           </Route>
         </Switch> */}
         <h1>MADDY IS POOP</h1>
+        <FetchComponent />
       </div>
     </Router>
   );
