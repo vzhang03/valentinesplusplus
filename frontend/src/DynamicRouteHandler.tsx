@@ -45,7 +45,7 @@ const DynamicRouteHandler = () => {
   var display = <p>404: Entry not found</p>;
 
   if (entry) {
-    if (entry.cardNumber === 1) display = <Card1 /> 
+    if (entry.cardNumber === 1) display = <Card1 senderName={entry.senderName} receiverName={entry.receiverName} note="fill in"/> 
 
     else display = <p>404: Entry not found</p>
   }

@@ -41,13 +41,30 @@ export default function App() {
 }
 
 function Home() {
-  return <FetchComponent /> ;
+  return ( 
+  <div> 
+     <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/steven2">steven2</Link>
+          </li>
+          <li>
+            <Link to="/users">Users</Link>
+          </li>
+        </ul>
+      </nav>
+    <FetchComponent /> 
+  </div>
+  );
 }
 
 function About() {
   return (
     <>
-      <Card1 />
+      {/* <Card1 /> */}
     </>
   );
 }

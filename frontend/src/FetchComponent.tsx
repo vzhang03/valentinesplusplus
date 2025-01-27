@@ -49,7 +49,6 @@ const FetchComponent = () => {
         value={newDoc.receiverName}
         onChange={(e) => setNewDoc({ ...newDoc, receiverName: e.target.value })}
       />
-      {/* link, notes, card-type, emails */}
       <input
           type="text"
           placeholder="Link"
@@ -62,9 +61,9 @@ const FetchComponent = () => {
         value={newDoc.cardNumber}
         onChange={(e) => setNewDoc({ ...newDoc, cardNumber: parseInt(e.target.value, 10) })}
       />
+      {/* TODO: MISSING LINK AND EMAILS */}
 
       {/* example input */}
-
       <input
         type="text"
         placeholder="Hobbies (comma-separated)"
