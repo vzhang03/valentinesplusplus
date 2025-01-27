@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap'); 
 
+/* how to make this not clash with the other one */
 body {
     height: 100vh;
     display: flex;

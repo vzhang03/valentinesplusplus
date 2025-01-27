@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import FetchComponent from "./FetchComponent";
 import Card1 from "./cards/card1/Card1";
+import DynamicRouteHandler from "./DynamicRouteHandler";
 
 export default function App() {
   return (
@@ -30,16 +31,17 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/users" element={<Users />} />
           <Route path="/" element={<Home />} />
+
+          <Route path="*" element={<DynamicRouteHandler />} />
         </Routes>
 
-        {/* <FetchComponent /> */}
       </div>
     </Router>
   );
 }
 
 function Home() {
-  return <h2>Home</h2>;
+  return <FetchComponent /> ;
 }
 
 function About() {

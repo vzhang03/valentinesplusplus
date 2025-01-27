@@ -3,7 +3,7 @@ import { insertDocument, fetchDocuments } from './APIService';
 
 const FetchComponent = () => {
   const [documents, setDocuments] = useState([]);
-  const [newDoc, setNewDoc] = useState({ senderName: '', receiverName: "", age: '', hobbies: '' });
+  const [newDoc, setNewDoc] = useState({ senderName: '', receiverName: "", link: '', cardNumber: '', hobbies: '' });
 
   // Fetch documents on component mount
   useEffect(() => {
@@ -25,7 +25,8 @@ const FetchComponent = () => {
     try {
       const hobbiesArray = newDoc.hobbies.split(',').map(hobby => hobby.trim()); // Convert hobbies to array
       const response = await insertDocument({ ...newDoc, hobbies: hobbiesArray });
-      alert(`Document inserted with ID: ${response.documentId}`);
+      console.log(newDoc);
+      // alert(`Document inserted with ID: ${response.documentId}`);
     } catch (error) {
       alert('Failed to insert document');
     }
@@ -44,20 +45,26 @@ const FetchComponent = () => {
       />
       <input
         type="text"
-        placeholder="Name"
+        placeholder="Receiver name"
         value={newDoc.receiverName}
         onChange={(e) => setNewDoc({ ...newDoc, receiverName: e.target.value })}
       />
-    {/* link, notes, card-type, emails */}
-
-
-    {/* example input */}
-    <input
+      {/* link, notes, card-type, emails */}
+      <input
+          type="text"
+          placeholder="Link"
+          value={newDoc.link}
+          onChange={(e) => setNewDoc({ ...newDoc, link: e.target.value })}
+        />
+      <input
         type="number"
-        placeholder="Age"
-        value={newDoc.age}
-        onChange={(e) => setNewDoc({ ...newDoc, age: parseInt(e.target.value, 10) })}
+        placeholder="Card Number"
+        value={newDoc.cardNumber}
+        onChange={(e) => setNewDoc({ ...newDoc, cardNumber: parseInt(e.target.value, 10) })}
       />
+
+      {/* example input */}
+
       <input
         type="text"
         placeholder="Hobbies (comma-separated)"
@@ -68,12 +75,16 @@ const FetchComponent = () => {
 
       <h2>Fetched Documents</h2>
       <ul>
-        {documents.map((doc) => (
-          <li key={doc._id}>
-            {doc.name} - {doc.age} years old, Hobbies: {doc.hobbies.join(', ')}
-            {/* use this to print out what it's going to look like */}
-          </li>
-        ))}
+      {documents.map((doc) => (
+        <li key={doc._id}>
+          {Object.entries(doc).map(([key, value]) => (
+            <span key={key}>
+              <strong>{key}:</strong>{" "}
+              {Array.isArray(value) ? value.join(", ") + " // ": value.toString() + " // "}
+            </span>
+          ))}
+        </li>
+      ))}
       </ul>
     </div>
   );
