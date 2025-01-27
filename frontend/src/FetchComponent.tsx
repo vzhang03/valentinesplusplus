@@ -3,13 +3,14 @@ import { insertDocument, fetchDocuments } from './APIService';
 
 const FetchComponent = () => {
   const [documents, setDocuments] = useState([]);
-  const [newDoc, setNewDoc] = useState({ name: '', age: '', hobbies: '' });
+  const [newDoc, setNewDoc] = useState({ senderName: '', receiverName: "", age: '', hobbies: '' });
 
   // Fetch documents on component mount
   useEffect(() => {
     const loadDocuments = async () => {
       try {
-        const docs = await fetchDocuments({ name: 'Alice' }); // Example query
+        const docs = await fetchDocuments({}); // All documents
+        // const docs = await fetchDocuments({ name: 'Alice' }); // Example query
         setDocuments(docs);
       } catch (error) {
         console.error('Failed to load documents:', error);
@@ -37,11 +38,21 @@ const FetchComponent = () => {
       <h2>Insert Document</h2>
       <input
         type="text"
-        placeholder="Name"
-        value={newDoc.name}
-        onChange={(e) => setNewDoc({ ...newDoc, name: e.target.value })}
+        placeholder="Sender name"
+        value={newDoc.senderName}
+        onChange={(e) => setNewDoc({ ...newDoc, senderName: e.target.value })}
       />
       <input
+        type="text"
+        placeholder="Name"
+        value={newDoc.receiverName}
+        onChange={(e) => setNewDoc({ ...newDoc, receiverName: e.target.value })}
+      />
+    {/* link, notes, card-type, emails */}
+
+
+    {/* example input */}
+    <input
         type="number"
         placeholder="Age"
         value={newDoc.age}
@@ -60,6 +71,7 @@ const FetchComponent = () => {
         {documents.map((doc) => (
           <li key={doc._id}>
             {doc.name} - {doc.age} years old, Hobbies: {doc.hobbies.join(', ')}
+            {/* use this to print out what it's going to look like */}
           </li>
         ))}
       </ul>

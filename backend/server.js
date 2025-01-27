@@ -43,6 +43,24 @@ app.get("/api/documents", async (req, res) => {
   }
 });
 
+app.post("/api/documents", async (req, res) => {
+  try {
+    const collection = await connectToDatabase();
+    const document = req.body; // Get the document to insert from the request body
+
+    // Insert the document into the collection
+    const insertResult = await collection.insertOne(document);
+
+    res.status(201).json({
+      message: "Document inserted successfully!",
+      insertedId: insertResult.insertedId,
+    });
+  } catch (error) {
+    console.error("Error inserting document:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });

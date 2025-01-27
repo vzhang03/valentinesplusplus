@@ -1,16 +1,17 @@
 import {
   BrowserRouter as Router,
-  // Switch,
+  Routes,
   Route,
   Link
 } from "react-router-dom";
 import FetchComponent from "./FetchComponent";
+import Card1 from "./cards/card1/Card1";
 
 export default function App() {
   return (
     <Router>
       <div>
-        <nav>
+        {/* <nav>
           <ul>
             <li>
               <Link to="/">Home</Link>
@@ -22,23 +23,16 @@ export default function App() {
               <Link to="/users">Users</Link>
             </li>
           </ul>
-        </nav>
+        </nav> */}
 
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        {/* <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/users">
-            <Users />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch> */}
-        <h1>MADDY IS POOP</h1>
-        <FetchComponent />
+        {/* Use <Routes> instead of <Switch> */}
+        <Routes>
+          <Route path="/about" element={<About />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+
+        {/* <FetchComponent /> */}
       </div>
     </Router>
   );
@@ -49,7 +43,11 @@ function Home() {
 }
 
 function About() {
-  return <h2>About</h2>;
+  return (
+    <>
+      <Card1 />
+    </>
+  );
 }
 
 function Users() {
